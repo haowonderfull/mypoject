@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zjtec.travel.dao.UserDao">
+	<select id="findByUserName" parameterType="String" resultType="com.zjtec.travel.domain.User">
+		SELECT * FROM tab_user WHERE username = #{username}
+	</select>
+
+	<select id="findActiveUserByUserName" parameterType="String" resultType="com.zjtec.travel.domain.User">
+		SELECT * FROM tab_user WHERE username = #{username} AND status = 'Y'
+	</select>
+
+	<insert id="save" parameterType="com.zjtec.travel.domain.User">
+		INSERT INTO tab_user (username, password, email, name, telephone, birthday, sex, status, code, role)
+		VALUES (#{username}, #{password}, #{email}, #{name}, #{telephone}, #{birthday}, #{sex}, #{status}, #{code}, #{role})
+	</insert>
+
+	<select id="existUserNameOrEmail" parameterType="map" resultType="boolean">
+		SELECT COUNT(*) > 0 FROM tab_user WHERE username = #{username} OR email = #{email}
+	</select>
+
+	<update id="activeUser" parameterType="map">
+		UPDATE tab_user SET status = 'Y' WHERE username = #{username} AND code = #{code}
+	</update>
+</mapper>
